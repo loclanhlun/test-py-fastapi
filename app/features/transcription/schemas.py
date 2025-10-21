@@ -1,9 +1,8 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl
 
-class RewriteRequest(BaseModel):
-    content: str
-    style: str | None = None
-    level: str | None = None
+class TranscriptRequest(BaseModel):
+    url: HttpUrl
+    lang_hint: str | None = None
 
-class RewriteResponse(BaseModel):
-    content: str
+class TranscriptResponse(BaseModel):
+    text: str

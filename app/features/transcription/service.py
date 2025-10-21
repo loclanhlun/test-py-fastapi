@@ -1,9 +1,9 @@
-from app.interfaces.rewriting import IRewriteProvider
+from app.interfaces.transcription import ITranscriptionProvider
 
-class RewriteService:
-    def __init__(self, provider: IRewriteProvider):
+class TranscriptService:
+    def __init__(self, provider: ITranscriptionProvider):
         self.provider = provider
 
 
-    async def rewrite(self, content: str, style: str | None, level: str | None) -> str:
-        return await self.provider.rewrite(content, style=style, level=level)
+    async def from_youtube_url(self, url: str, lang_hint: str | None) -> str:
+        return await self.provider.from_youtube_url(url, lang_hint=lang_hint)

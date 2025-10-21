@@ -13,10 +13,12 @@ from app.core.config import (
 # --- Services (use cases)
 from app.features.rewriting.service import RewriteService
 from app.features.images.service import ImageGenService
+from app.features.transcription.service import TranscriptService
 
 # --- Providers (adapters)
 from app.providers.openai_chat import OpenAIChatRewriter
 from app.providers.openai_images import OpenAIImagegen
+from app.providers.openai_transcript import OpenAIWhiser
 
 # ---------- Provider singletons (created once) ----------
 # These depend only on env/config and are shared by services.
@@ -27,6 +29,10 @@ _rewrite_provider = (
 
 _images_provider = (
     OpenAIImagegen(require_openai()) if OPENAI_API_KEY else None
+)
+
+_transcription_provider = (
+    OpenAIWhiser(require_openai()) if OPENAI_API_KEY else None
 )
 
 
@@ -44,3 +50,10 @@ def get_image_gen_service() -> ImageGenService:
             "Image Gen provider not configured. Set OPENAI_API_KEY in .env"
         )
     return ImageGenService(_images_provider)
+
+def get_transcription_service() -> TranscriptService:
+    if not _transcription_provider:
+        raise RuntimeError(
+            "Transcription provider not configured. Set OPENAI_API_KEY in .env"
+        )
+    return TranscriptService(_transcription_provider)

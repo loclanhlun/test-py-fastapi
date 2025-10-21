@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Depends
 
-from .schemas import RewriteRequest, RewriteResponse
-from .service import RewriteService
-from app.container import get_rewrite_service
+from .schemas import TranscriptRequest, TranscriptResponse
+from .service import TranscriptService
+from app.container import get_transcription_service
 
-router = APIRouter(prefix="/rewrite", tags=["rewrite"])
+router = APIRouter(prefix="/transcription", tags=["transcription"])
 
 
-@router.post("", response_model=RewriteResponse)
-async def rewrite(req: RewriteRequest, svc: RewriteService = Depends(get_rewrite_service)):
-    out = await svc.rewrite(req.content, req.style, req.level)
-    return RewriteResponse(content=out)
+@router.post("", response_model=TranscriptResponse)
+async def transcript_from_url(req: TranscriptRequest, svc: TranscriptService = Depends(get_transcription_service)):
+    text = await svc.from_youtube_url(str(req.url), req.lang_hint)
+    return TranscriptResponse(text=text)
