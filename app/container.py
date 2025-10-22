@@ -18,7 +18,7 @@ from app.features.transcription.service import TranscriptService
 # --- Providers (adapters)
 from app.providers.openai_chat import OpenAIChatRewriter
 from app.providers.openai_images import OpenAIImagegen
-from app.providers.openai_transcript import OpenAIWhiser
+from app.providers.openai_transcript import OpenAIWhisper
 
 # ---------- Provider singletons (created once) ----------
 # These depend only on env/config and are shared by services.
@@ -32,7 +32,7 @@ _images_provider = (
 )
 
 _transcription_provider = (
-    OpenAIWhiser(require_openai()) if OPENAI_API_KEY else None
+    OpenAIWhisper(require_openai()) if OPENAI_API_KEY else None
 )
 
 

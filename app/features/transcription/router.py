@@ -9,5 +9,5 @@ router = APIRouter(prefix="/transcription", tags=["transcription"])
 
 @router.post("", response_model=TranscriptResponse)
 async def transcript_from_url(req: TranscriptRequest, svc: TranscriptService = Depends(get_transcription_service)):
-    text = await svc.from_youtube_url(str(req.url), req.lang_hint)
-    return TranscriptResponse(text=text)
+    transcripts = await svc.from_youtube_url(str(req.url), req.lang_hint, str(req.model_option))
+    return TranscriptResponse(transcripts=transcripts)
